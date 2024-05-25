@@ -1,7 +1,7 @@
 from PIL import Image
 import google.generativeai as genai
 import streamlit as st
-import re
+#import re
 
 #pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -51,11 +51,11 @@ def gemini_pro_vision_response(image):
     return text
     
 
-def mask_sensitive_infot(respose_text):
+"""def mask_sensitive_infot(respose_text):
             respose_text = re.sub(r'\b[A-Z][a-z]*\b', '[NAME]', text)
             respose_text = re.sub(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
             respose_text = re.sub(r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
-            return respose_text
+            return respose_text"""
 chat_session = model.start_chat(
     history=[
     {
@@ -188,7 +188,7 @@ if option == "Text":
         )
         response_text = gemini_pro_response(user_prompt)
         st.session_state['chat_history'].append({"user": text_input, "response": response_text})
-        st.markdown(f"**Description:** {mask_sensitive_infot(respose_text)}")
+        st.markdown(f"**Description:** {respose_text}")
 
 if option == "Image":
     image_file = st.file_uploader("Upload Image:", type=["jpg", "png", "jpeg"])
@@ -207,7 +207,7 @@ if option == "Image":
             )
             response_text = gemini_pro_response(user_prompt)
             st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
-            st.markdown(f"**Description:** {mask_sensitive_infot(response_text)}")
+            st.markdown(f"**Description:** {(response_text)}")
 
 # Display chat history
 if 'chat_history' in st.session_state and st.session_state['chat_history']:
