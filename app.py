@@ -140,11 +140,7 @@ elif st.session_state['active_section'] == 'prescription_analysis':
             extracted_text = gemini_pro_vision_response(image)
             user_prompt = (
                 f"Can you analyze the prescription and provide the necessary information? The extracted text is: {extracted_text}.\n"
-                "Please provide the following details:\n"
-                "1. Whether this medicine is generic or branded.\n"
-                "2. The approximate price range.\n"
-                "3. A brief description including precautions.\n"
-                "4. Always display a disclaimer to refer to a doctor."
+                f"Give the list of  generic medicine that are available for {extracted_text} with the prices in INR and very small description about each tablet in 1 line"
             )
             response_text = gemini_pro_response(user_prompt)
             st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
