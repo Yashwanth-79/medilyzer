@@ -153,8 +153,10 @@ if 'chat_history' not in st.session_state:
     st.session_state['chat_history'] = []
 
 # Display the logo
-image = Image.open(r"C:\Users\YESHWANTH M S\OneDrive\Pictures\LOGO (1).png")
-st.image(image, use_column_width=True)
+#image = Image.open(r"C:\Users\YESHWANTH M S\OneDrive\Pictures\LOGO (1).png")
+#st.image(image, use_column_width=True)
+st.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: left; font-size:25px;font-weight:bold; color: white;'>Choose your input form</h1>", unsafe_allow_html=True)
 
 option = st.radio("Choose Input Type:", ("Text", "Image"))
 
