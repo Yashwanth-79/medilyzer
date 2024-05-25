@@ -167,7 +167,7 @@ if option == "Text":
             f"Note: if text is one or two word given related to medicine or company or any medicine technical term, just give output but don't give null answer or not sufficient answer. Can you provide detailed information about the following medicine from given image or text: '{text_input}'. "
             "Specifically, include:\n"
             "1. Whether this medicine is generic or branded (just specify whether it is generic/branded; caution: always give the correct answer and once cross verify, don't give irrelevant information).\n"
-            "2. Give the approximate price range within 50INR if available like(30-35)(30-45)(25-30)(25-35)(20-30)(NOTE: Always give same answer after each iteration).\n"
+            f"2. {extracted_text}at next line mention and Give the approximate price range (for genric medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))(for branded medicine keep price ranges at more 70 INR )(keep changing price range for other tablets only in small margin)(NOTE: Always give same answer after each iteration).\n"
             "3. A brief description (including: precautions but not much just give 3-4 points) of this medicine.\n"
             "4. Always display disclaimer to refer doctors."
         )
@@ -186,7 +186,7 @@ if option == "Image":
                 f"Can you provide detailed information about the following medicine extracted from an image: {extracted_text}.\n"
                 "Specifically, give output each next line for following commands:\n"
                 "1. Whether this medicine is generic or branded (just specify whether it is generic/branded; caution: always give the correct answer and once cross verify, don't give irrelevant information) (NOTE: i got some wrong answers ,correct it and give me proper answer and same asnwer for each iteration and continue at next line.\n\n"
-                f"2. {extracted_text}at next line mention and Give the approximate price range (for genric medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))(for branded medicine keep price ranges at more 70 INR )(keep changing price rnage for other tablets only in small margin)(NOTE: Always give same answer after each iteration).\n"
+                f"2. {extracted_text}at next line mention and Give the approximate price range (for genric medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))(for branded medicine keep price ranges at more 70 INR )(keep changing price range for other tablets only in small margin)(NOTE: Always give same answer after each iteration).\n"
                 "3. A very small description (including: precautions in 3-4 points) of this medicine.\n"
                 "4. Always display disclaimer to refer doctors."
             )
