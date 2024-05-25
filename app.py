@@ -142,7 +142,7 @@ elif st.session_state['active_section'] == 'prescription_analysis':
                 f"Can you analyze the prescription and provide the necessary information {extracted_text}.\n"
                 f"Give the list of  generic medicine that are available for {extracted_text} with the prices in INR and very small description about each tablet in 1 line"
                 f"Dont say theres no information is provided ,you fetch the information as much as possible from image and considering key points from {extracted_text} give genric medicine suggestion, dont say NO")
-                 f"{extracted_text} at next line mention and Give the approximate price range (for generic medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))"
+                f"{extracted_text} at next line mention and Give the approximate price range (for generic medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))"
             response_text = gemini_pro_response(user_prompt)
             st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
             st.markdown(f"**Prescription Analysis:** {response_text}")
