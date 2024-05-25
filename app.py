@@ -167,7 +167,7 @@ if option == "Text":
             f"Note: if text is one or two word given related to medicine or company or any medicine technical term, just give output but don't give null answer or not sufficient answer. Can you provide detailed information about the following medicine from given image or text: '{text_input}'. "
             "Specifically, include:\n"
             "1. Whether this medicine is generic or branded (just specify whether it is generic/branded; caution: always give the correct answer and once cross verify, don't give irrelevant information).\n"
-            f"2. {extracted_text}at next line mention and Give the approximate price range (for genric medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))(for branded medicine keep price ranges at more 70 INR )(keep changing price range for other tablets only in small margin)(NOTE: Always give same answer after each iteration).\n"
+            f"2. {text_input}at next line mention and Give the approximate price range (for genric medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))(for branded medicine keep price ranges at more 70 INR )(keep changing price range for other tablets only in small margin)(NOTE: Always give same answer after each iteration).\n"
             "3. A brief description (including: precautions but not much just give 3-4 points) of this medicine.\n"
             "4. Always display disclaimer to refer doctors."
         )
