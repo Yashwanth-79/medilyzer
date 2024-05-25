@@ -124,7 +124,7 @@ elif st.session_state['active_section'] == 'generic_list':
     if st.button("Submit"):
         user_prompt = (
             f"Can you provide a list of generic and branded similar to the following: '{text_input}', with their price ranges in INR. Please display the information in a table format with columns: generic meds, generic meds price, branded meds, branded price."
-        )
+        "atlast after showing output give disclaimer about the consultation and price variation")
         response_text = gemini_pro_response(user_prompt)
         st.session_state['chat_history'].append({"user": text_input, "response": response_text})
         st.markdown(f"**Similar Medicines and Prices:**\n\n{response_text}")
@@ -144,6 +144,7 @@ elif st.session_state['active_section'] == 'prescription_analysis':
                 f"Dont say theres no information is provided ,you fetch the information as much as possible from image and considering key points from {extracted_text} give genric medicine suggestion, dont say NO"
                 f"{extracted_text} at next line mention and Give the approximate price range (for generic medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))"
                  "Atlast considering all the above outputs display the information in a table format with columns: generic meds, generic meds price, branded meds, branded price."
+                "atlast after showing output give disclaimer about the consultation and price variation"
             )
             response_text = gemini_pro_response(user_prompt)
             st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
