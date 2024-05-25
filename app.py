@@ -139,9 +139,9 @@ elif st.session_state['active_section'] == 'prescription_analysis':
         if st.button("Analyze Prescription"):
             extracted_text = gemini_pro_vision_response(image)
             user_prompt = (
-                f"Can you analyze the prescription and provide the necessary information? The extracted text is: {extracted_text}.\n"
+                f"Can you analyze the prescription and provide the necessary information {extracted_text}.\n"
                 f"Give the list of  generic medicine that are available for {extracted_text} with the prices in INR and very small description about each tablet in 1 line"
-            )
+                f"Dont say theres no information is provided ,you fetch the information as much as possible from image and considering key points from {extracted_text} give genric medicine suggestion, dont say NO")
             response_text = gemini_pro_response(user_prompt)
             st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
             st.markdown(f"**Prescription Analysis:** {response_text}")
