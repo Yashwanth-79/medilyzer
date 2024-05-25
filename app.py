@@ -141,7 +141,7 @@ elif st.session_state['active_section'] == 'prescription_analysis':
             user_prompt = (
                 f"Can you analyze the prescription and provide the necessary information {extracted_text}.\n"
                 f"Give the list of  generic medicine that are available for {extracted_text} with the prices in INR and very small description about each tablet in 1 line"
-                f"Dont say theres no information is provided ,you fetch the information as much as possible from image and considering key points from {extracted_text} give genric medicine suggestion, dont say NO")"
+                f"Dont say theres no information is provided ,you fetch the information as much as possible from image and considering key points from {extracted_text} give genric medicine suggestion, dont say NO"
                 f"{extracted_text} at next line mention and Give the approximate price range (for generic medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))"
                  "Atlast considering all the above outputs display the information in a table format with columns: generic meds, generic meds price, branded meds, branded price."
             response_text = gemini_pro_response(user_prompt)
