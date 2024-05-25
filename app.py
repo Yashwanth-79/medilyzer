@@ -185,7 +185,7 @@ if option == "Image":
             user_prompt = (
                 f"Can you provide detailed information about the following medicine extracted from an image: {extracted_text}.\n"
                 "Specifically, give output each next line for following commands:\n"
-                "1. Whether this medicine is generic or branded (just specify whether it is generic/branded; caution: always give the correct answer and once cross verify, don't give irrelevant information)and at next line.\n\n"
+                "1. Whether this medicine is generic or branded (just specify whether it is generic/branded; caution: always give the correct answer and once cross verify, don't give irrelevant information) (NOTE: i got some wrong answers ,correct it and give me proper answer and same asnwer for each iteration and continue at next line.\n\n"
                 "2. at next line mention and Give the approximate price range within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30)(NOTE: Always give same answer after each iteration).\n"
                 "3. A very small description (including: precautions in 3-4 points) of this medicine.\n"
                 "4. Always display disclaimer to refer doctors."
