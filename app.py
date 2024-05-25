@@ -52,8 +52,7 @@ def mask_sensitive_infot(respose_text):
             respose_text = re.sub(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
             respose_text = re.sub(r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
             return respose_text
-    chat_session = model.start_chat(
-  history=[
+    chat_session = model.start_chat(history=[
     {
       "role": "user",
       "parts": [
