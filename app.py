@@ -5,7 +5,7 @@ import streamlit as st
 # Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-genai.configure(api_key='YOUR_API_KEY')
+genai.configure(api_key='AIzaSyBLofJGHX1U96SCLOn5hytoOaLcEIDoFcY')
 
 generation_config = {
     "temperature": 0.2,
