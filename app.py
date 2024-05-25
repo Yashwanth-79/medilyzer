@@ -51,11 +51,7 @@ def gemini_pro_vision_response(image):
     return text
     
 
-"""def mask_sensitive_infot(respose_text):
-            respose_text = re.sub(r'\b[A-Z][a-z]*\b', '[NAME]', text)
-            respose_text = re.sub(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
-            respose_text = re.sub(r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
-            return respose_text"""
+
 chat_session = model.start_chat(
     history=[
     {
