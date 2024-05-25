@@ -1,7 +1,7 @@
 from PIL import Image
 import google.generativeai as genai
 import streamlit as st
-
+import re
 
 #pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
