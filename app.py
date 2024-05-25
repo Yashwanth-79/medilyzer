@@ -5,7 +5,7 @@ import streamlit as st
 # Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-genai.configure(api_key='AIzaSyBLofJGHX1U96SCLOn5hytoOaLcEIDoFcY')
+genai.configure(api_key='YOUR_GENERATIVEAI_API_KEY')
 
 generation_config = {
     "temperature": 0.2,
@@ -47,25 +47,38 @@ def gemini_pro_vision_response(image):
     return text
 
 
-# Initialize session state for chat history and active section
+def mask_sensitive_info(text):
+    text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
+    text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
+    text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
+    return text
+
+def detect_entities(text):
+       
+    client = (
+    service_name=='comprehendmedical',
+    region_name=='us-east-1',
+    aws_access_key_id=='YOUR_ACCESS_KEY_ID',
+    aws_secret_access_key=='YOUR_SECRET_ACCESS_KEY'
+            )
+
+st.sidebar.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
+st.sidebar.markdown("<h1 style='text-align: left; font-size:25px;font-weight:bold; color: white;'>Choose your input form</h1>", unsafe_allow_html=True)
+
 if 'chat_history' not in st.session_state:
     st.session_state['chat_history'] = []
 
 if 'active_section' not in st.session_state:
     st.session_state['active_section'] = 'classify_compare'
 
-# Define sidebar
-st.sidebar.title("Options")
+# Define main section based on sidebar selection
 if st.sidebar.button("Classify and Compare"):
     st.session_state['active_section'] = 'classify_compare'
-if st.sidebar.button("Generic List"):
+elif st.sidebar.button("Generic List"):
     st.session_state['active_section'] = 'generic_list'
+elif st.sidebar.button("Prescription Analysis"):
+    st.session_state['active_section'] = 'prescription_analysis'
 
-
-st.sidebar.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
-st.sidebar.markdown("<h1 style='text-align: left; font-size:25px;font-weight:bold; color: white;'>Choose your input form</h1>", unsafe_allow_html=True)
-
-# Define main section based on sidebar selection
 if st.session_state['active_section'] == 'classify_compare':
     st.title("Classify and Compare")
 
@@ -116,9 +129,31 @@ elif st.session_state['active_section'] == 'generic_list':
         st.session_state['chat_history'].append({"user": text_input, "response": response_text})
         st.markdown(f"**Similar Medicines and Prices:**\n\n{response_text}")
 
+elif st.session_state['active_section'] == 'prescription_analysis':
+    st.title("Prescription Analysis")
+
+    image_file = st.file_uploader("Upload Prescription Image:", type=["jpg", "png", "jpeg"])
+    if image_file is not None:
+        image = Image.open(image_file)
+        st.image(image, caption="Uploaded Prescription Image", use_column_width=True)
+        if st.button("Analyze Prescription"):
+            extracted_text = gemini_pro_vision_response(image)
+            user_prompt = (
+                f"Can you analyze the prescription and provide the necessary information? The extracted text is: {extracted_text}.\n"
+                "Please provide the following details:\n"
+                "1. Whether this medicine is generic or branded.\n"
+                "2. The approximate price range.\n"
+                "3. A brief description including precautions.\n"
+                "4. Always display a disclaimer to refer to a doctor."
+            )
+            response_text = gemini_pro_response(user_prompt)
+            st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
+            st.markdown(f"**Prescription Analysis:** {response_text}")
+
 # Display chat history
 if 'chat_history' in st.session_state and st.session_state['chat_history']:
     st.write("### Chat History")
     for i, chat in enumerate(st.session_state['chat_history']):
         st.write(f"**User:** {chat['user']}")
         st.write(f"**Response:** {chat['response']}")
+
