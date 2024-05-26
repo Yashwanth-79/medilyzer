@@ -1,6 +1,6 @@
 # Welcome to Medilyzer: Generic Medicine Analyzer
 
-![Medilyzer Logo](https://drive.google.com/file/d/12O4usW5kFr5UblvmqDKrO8YhuG_xbRx7/view?usp=drive_link)
+![Medilyzer Logo](LOGO (1).png)
 
 <h1 style="text-align: left; font-size:50px;color: orange;">Welcome to Mediliyzer</h1>
 
