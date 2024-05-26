@@ -6,7 +6,7 @@ import speech_recognition as sr
 # Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-genai.configure(api_key='AIzaSyBLofJGHX1U96SCLOn5hytoOaLcEIDoFcY')
+genai.configure(api_key='enter your api key /use os.environ()')
 
 generation_config = {
     "temperature": 0.2,
@@ -47,21 +47,21 @@ def gemini_pro_vision_response(image):
     text = response.text
     return text
 
-
-def mask_sensitive_info(text):
+# use for masking name and date entities
+"""def mask_sensitive_info(text):
     text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
     text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
     text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
-    return text
-
-def detect_entities(text):
+    return text"""
+# use for finding medical entities through aws medical comprehend
+"""def detect_entities(text):
        
     client = (
     service_name=='comprehendmedical',
     region_name=='us-east-1',
     aws_access_key_id=='YOUR_ACCESS_KEY_ID',
     aws_secret_access_key=='YOUR_SECRET_ACCESS_KEY'
-            )
+            )"""
 
 st.sidebar.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
 st.sidebar.markdown("<h1 style='text-align: left; font-size:25px;font-weight:bold; color: white;'>Choose your input form</h1>", unsafe_allow_html=True)
