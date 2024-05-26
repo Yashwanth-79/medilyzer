@@ -1,6 +1,6 @@
-# Welcome to Medilyzer: Generic Medicine Analyzer
 
-!([LOGO (1).png](https://github.com/Yashwanth-79/Medilyzer/blob/main/LOGO%20(1).png?raw=true))
+
+![](https://github.com/Yashwanth-79/Medilyzer/blob/main/LOGO%20(1).png?raw=true)
 
 <h1 style="text-align: left; font-size:50px;color: orange;">Welcome to Mediliyzer</h1>
 
@@ -51,26 +51,32 @@ Medilyzer is your ultimate solution for analyzing generic medicines with precisi
 
 ### Installation
 
-1. Clone the repository:
+To run Medilyzer locally, follow these steps:
 
-2. Create and activate a virtual environment:
-  
-3. Install the required dependencies:
-  
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/yourusername/Medilyzer.git
+   cd Medilyzer
+2. **Create and activate a virtual environmen**
+   ```sh
+   python -m venv venv
+   `venv\Scripts\activate`
+3. **Install the required dependencies:**
+   ```sh
+   pip install -r requirements.txt
 4. Set up Tesseract OCR:
 
-- Download and install Tesseract OCR from [here](https://github.com/tesseract-ocr/tesseract).
-- Update the `pytesseract.pytesseract.tesseract_cmd` variable in the script with the path to the Tesseract executable.
+   1. Download and install Tesseract OCR from [here](https://github.com/tesseract-ocr/tesseract).
+   2. Update the pytesseract.pytesseract.tesseract_cmd variable in the script with the path to the Tesseract executable.
+5. Configure gemini and AWS credentials:
 
-5. Configure Gemini and AWS credentials:
-
-- Set up your Gemini API key.
-- Set up your AWS credentials for Comprehend Medical.
+   1. Set up your gemini API key.
+   2. Set up your AWS credentials for Comprehend Medical.
 
 ### Usage
 
-1. To start the Streamlit application, run:
-- streamlit app.py
+1. To start the Streamlit application,
+   ```sh run streamlit app.py ```
 
 
 2. **Text Input Mode:**
