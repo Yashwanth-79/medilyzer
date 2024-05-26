@@ -2,7 +2,7 @@ from PIL import Image
 import google.generativeai as genai
 import streamlit as st
 import speech_recognition as sr
-
+import pyaudio
 # Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -126,59 +126,44 @@ elif st.session_state['active_section'] == 'generic_list':
     text_input = st.text_area("Enter Text:", key="generic_list_text_input")
     if st.button("Submit", key="generic_list_submit_button"):
         user_prompt = (
-            f"Can you provide a list of generic and branded similar to the following: '{text_input}', with their price ranges in INR. Please display the information in a table format with columns: generic meds, generic meds price, branded meds, branded price."
-             "atlast after showing output give disclaimer about the consultation and price variation")
+            f"Can you provide a list of generic and branded similar to the following: '{text_input}', with their uses and side effects?"
+        )
         response_text = gemini_pro_response(user_prompt)
         st.session_state['chat_history'].append({"user": text_input, "response": response_text})
-        st.markdown(f"**Similar Medicines and Prices:**\n\n{response_text}")
+        st.markdown(f"**Description:** {response_text}")
 
 elif st.session_state['active_section'] == 'prescription_analysis':
     st.title("Prescription Analysis")
-
-    image_file = st.file_uploader("Upload Prescription Image:", type=["jpg", "png", "jpeg"], key="prescription_image_uploader")
-    if image_file is not None:
-        image = Image.open(image_file)
-        st.image(image, caption="Uploaded Prescription Image", use_column_width=True)
+    uploaded_file = st.file_uploader("Upload a prescription image:", type=["jpg", "png", "jpeg"], key="prescription_uploader")
+    if uploaded_file is not None:
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Prescription", use_column_width=True)
         if st.button("Analyze Prescription", key="analyze_prescription_button"):
             extracted_text = gemini_pro_vision_response(image)
-            user_prompt = (
-                f"Can you analyze the prescription and provide the necessary information {extracted_text}.\n"
-                f"Give the list of  generic medicine that are available for {extracted_text} with the prices in INR and very small description about each tablet in 1 line"
-                f"Dont say theres no information is provided ,you fetch the information as much as possible from image and considering key points from {extracted_text} give genric medicine suggestion, dont say NO"
-                f"{extracted_text} at next line mention and Give the approximate price range (for generic medicine within 50INR if available like Rs(30-35)Rs(30-45)Rs(25-30)Rs(25-35)(20-30))"
-                 "Atlast considering all the above outputs display the information in a table format with columns: generic meds, generic meds price, branded meds, branded price."
-                 "atlast after showing output give disclaimer about the consultation and price variation"
-            )
-            response_text = gemini_pro_response(user_prompt)
-            st.session_state['chat_history'].append({"user": extracted_text, "response": response_text})
-            st.markdown(f"**Prescription Analysis:** {response_text}")
+            masked_text = mask_sensitive_info(extracted_text)
+            st.write(f"**Masked Text:** {masked_text}")
+            entities = detect_entities(masked_text)
+            st.write(f"**Entities:** {entities}")
 
 elif st.session_state['active_section'] == 'voicer':
     st.title("Voicer")
     st.write("Press the button to start voice input")
-    if st.button("Start Voice Input", key="start_voice_input_button"):
+    if st.button("Voicer", key="voicer_button_action"):
         recognizer = sr.Recognizer()
         with sr.Microphone() as source:
             st.write("Listening...")
-            audio_data = recognizer.listen(source)
-            try:
-                text = recognizer.recognize_google(audio_data)
-                st.write(f"Recognized Text: {text}")
-
-                user_prompt = (
-                    f"Please summarize the following text into a small description and create a table with columns: morning-which med, noon-which med, night-which med based on the provided information: '{text}'. "
-                    "After providing the table, include a small disclaimer to refer to a doctor."
-                )
-                response_text = gemini_pro_response(user_prompt)
-                st.markdown(f"**Summary and Routine:**\n\n{response_text}")
-            except sr.UnknownValueError:
-                st.write("Sorry, I could not understand the audio.")
-            except sr.RequestError as e:
-                st.write(f"Could not request results; {e}")
-
-# Display chat history
-if 'chat_history' in st.session_state and st.session_state['chat_history']:
-    st.write("### Chat History")
-    for i, chat in enumerate(st.session_state['chat_history']):
-        st.write(f"**User:** {chat['user']}")
-        st.write(f"**Response:** {chat['response']}")
+            audio = recognizer.listen(source)
+        try:
+            st.write("Recognizing...")
+            voice_text = recognizer.recognize_google(audio)
+            st.write(f"Recognized Text: {voice_text}")
+            user_prompt = (
+                f"Analyze and summarize the following voice input: '{voice_text}'. Provide a routine prescribed by the doctor in a table format with columns for morning, noon, and night medications."
+            )
+            response_text = gemini_pro_response(user_prompt)
+            st.markdown(f"**Summary:** {response_text}")
+            st.markdown("**Disclaimer: Always refer to a doctor for medical advice.**")
+        except sr.UnknownValueError:
+            st.write("Sorry, could not understand the audio.")
+        except sr.RequestError as e:
+            st.write(f"Could not request results; {e}")
