@@ -40,7 +40,7 @@ Medilyzer is your ultimate solution for analyzing generic medicines with precisi
 ### Analyze Medical Texts, Images, and Voice Inputs
 - Seamlessly input medical data through text, image upload, or voice.
 - Extract text from images with Tesseract OCR for accurate analysis.
-- Utilize OpenAI's Gemini model to analyze and provide insights into medical texts, images, and voice inputs.
+- Utilize Gemini model to analyze and provide insights into medical texts, images, and voice inputs.
 
 ### Entity Extraction
 - Detect and extract medical entities such as symptoms, diagnosis, and treatments using AWS Comprehend Medical.
