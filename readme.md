@@ -76,7 +76,7 @@ To run Medilyzer locally, follow these steps:
 ### Usage
 
 1. To start the Streamlit application,
-   ```sh run streamlit app.py ```
+   ```run streamlit app.py ```
 
 
 2. **Text Input Mode:**
