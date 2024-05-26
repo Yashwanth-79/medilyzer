@@ -3,7 +3,7 @@ import google.generativeai as genai
 import streamlit as st
 import speech_recognition as sr
 
-#  set the path to tesseract executable if necessary and import its dependenices
+#  set the path to tesseract executable if necessary and import tesseract
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 genai.configure(api_key='AIzaSyBLofJGHX1U96SCLOn5hytoOaLcEIDoFcY')
@@ -47,13 +47,13 @@ def gemini_pro_vision_response(image):
     text = response.text
     return text
 
-# use mask sensitive info to mask name and date entities
+
 """def mask_sensitive_info(text):
-    text = re.(r'\b[A-Z][a-z]*\b', '[NAME]', text)
-    text = re.b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
-    text = re.(r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
+    text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
+    text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
+    text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
     return text"""
-# one can aws medical comprehend for identifing medical entities
+
 """def detect_entities(text):
        
     client = (
@@ -72,7 +72,7 @@ if 'chat_history' not in st.session_state:
 if 'active_section' not in st.session_state:
     st.session_state['active_section'] = 'classify_compare'
 
-
+# Define main section based on sidebar selection
 if st.sidebar.button("Classify and Compare", key="classify_compare_button"):
     st.session_state['active_section'] = 'classify_compare'
 elif st.sidebar.button("Generic List", key="generic_list_button"):
@@ -176,7 +176,7 @@ elif st.session_state['active_section'] == 'voicer':
             except sr.RequestError as e:
                 st.write(f"Could not request results; {e}")
 
-
+# Display chat history
 if 'chat_history' in st.session_state and st.session_state['chat_history']:
     st.write("### Chat History")
     for i, chat in enumerate(st.session_state['chat_history']):
