@@ -2,6 +2,7 @@ from PIL import Image
 import google.generativeai as genai
 import streamlit as st
 import speech_recognition as sr
+
 # Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -49,7 +50,7 @@ def gemini_pro_vision_response(image):
 
 def mask_sensitive_info(text):
     text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
-    text = (r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
+    text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
     text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
     return text
 
@@ -58,8 +59,8 @@ def detect_entities(text):
     client = (
     service_name=='comprehendmedical',
     region_name=='us-east-1',
-    aws_access_key_id=='489hg9wygw89gh99848h8g',
-    aws_secret_access_key=='aihsd94thh9f8hiehf9h'
+    aws_access_key_id=='YOUR_ACCESS_KEY_ID',
+    aws_secret_access_key=='YOUR_SECRET_ACCESS_KEY'
             )
 
 st.sidebar.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
@@ -72,23 +73,23 @@ if 'active_section' not in st.session_state:
     st.session_state['active_section'] = 'classify_compare'
 
 # Define main section based on sidebar selection
-if st.sidebar.button("Classify and Compare"):
+if st.sidebar.button("Classify and Compare", key="classify_compare_button"):
     st.session_state['active_section'] = 'classify_compare'
-elif st.sidebar.button("Generic List"):
+elif st.sidebar.button("Generic List", key="generic_list_button"):
     st.session_state['active_section'] = 'generic_list'
-elif st.sidebar.button("Prescription Analysis"):
+elif st.sidebar.button("Prescription Analysis", key="prescription_analysis_button"):
     st.session_state['active_section'] = 'prescription_analysis'
-elif st.sidebar.button("Voicer"):
+elif st.sidebar.button("Voicer", key="voicer_button"):
     st.session_state['active_section'] = 'voicer'
 
 if st.session_state['active_section'] == 'classify_compare':
     st.title("Classify and Compare")
 
-    option = st.radio("Choose Input Type:", ("Text", "Image"))
+    option = st.radio("Choose Input Type:", ("Text", "Image"), key="input_type_radio")
 
     if option == "Text":
-        text_input = st.text_area("Enter Text:")
-        if st.button("Submit"):
+        text_input = st.text_area("Enter Text:", key="text_input_area")
+        if st.button("Submit", key="text_submit_button"):
             user_prompt = (
                 f"Note: if text is one or two word given related to medicine or company or any medicine technical term, just give output but don't give null answer or not sufficient answer. Can you provide detailed information about the following medicine from given image or text: '{text_input}'. "
                 "Specifically, include:\n"
@@ -102,11 +103,11 @@ if st.session_state['active_section'] == 'classify_compare':
             st.markdown(f"**Description:** {response_text}")
 
     if option == "Image":
-        image_file = st.file_uploader("Upload Image:", type=["jpg", "png", "jpeg"])
+        image_file = st.file_uploader("Upload Image:", type=["jpg", "png", "jpeg"], key="image_uploader")
         if image_file is not None:
             image = Image.open(image_file)
             st.image(image, caption="Uploaded Image", use_column_width=True)
-            if st.button("Extract Text"):
+            if st.button("Extract Text", key="extract_text_button"):
                 extracted_text = gemini_pro_vision_response(image)
                 user_prompt = (
                     f"Can you provide detailed information about the following medicine extracted from an image: {extracted_text}.\n"
@@ -122,8 +123,8 @@ if st.session_state['active_section'] == 'classify_compare':
 
 elif st.session_state['active_section'] == 'generic_list':
     st.title("Generic List")
-    text_input = st.text_area("Enter Text:")
-    if st.button("Submit"):
+    text_input = st.text_area("Enter Text:", key="generic_list_text_input")
+    if st.button("Submit", key="generic_list_submit_button"):
         user_prompt = (
             f"Can you provide a list of generic and branded similar to the following: '{text_input}', with their price ranges in INR. Please display the information in a table format with columns: generic meds, generic meds price, branded meds, branded price."
              "atlast after showing output give disclaimer about the consultation and price variation")
@@ -134,11 +135,11 @@ elif st.session_state['active_section'] == 'generic_list':
 elif st.session_state['active_section'] == 'prescription_analysis':
     st.title("Prescription Analysis")
 
-    image_file = st.file_uploader("Upload Prescription Image:", type=["jpg", "png", "jpeg"])
+    image_file = st.file_uploader("Upload Prescription Image:", type=["jpg", "png", "jpeg"], key="prescription_image_uploader")
     if image_file is not None:
         image = Image.open(image_file)
         st.image(image, caption="Uploaded Prescription Image", use_column_width=True)
-        if st.button("Analyze Prescription"):
+        if st.button("Analyze Prescription", key="analyze_prescription_button"):
             extracted_text = gemini_pro_vision_response(image)
             user_prompt = (
                 f"Can you analyze the prescription and provide the necessary information {extracted_text}.\n"
@@ -155,34 +156,25 @@ elif st.session_state['active_section'] == 'prescription_analysis':
 elif st.session_state['active_section'] == 'voicer':
     st.title("Voicer")
     st.write("Press the button to start voice input")
-    if st.button("Voicer"):
-        # Logic for voice input and analysis
+    if st.button("Voicer", key="voicer_button"):
         recognizer = sr.Recognizer()
         with sr.Microphone() as source:
-            st.write("Speak now...")
-            audio = recognizer.listen(source)
-            st.write("Audio recorded. Now analyzing...")
+            st.write("Listening...")
+            audio_data = recognizer.listen(source)
+            try:
+                text = recognizer.recognize_google(audio_data)
+                st.write(f"Recognized Text: {text}")
 
-        try:
-            # Convert speech to text
-            text_input = recognizer.recognize_google(audio)
-            st.write(f"Text extracted from voice input: {text_input}")
-
-            # Analyze the extracted text
-            user_prompt = (
-                f"Can you provide detailed information about the following medicine from the voice input: '{text_input}'. "
-                "Specifically, include:\n"
-                "it takes input as voice and analyses it and turns into text , where the analysed text should be summarised into small descriptions and show small description after that which create a table where it should the routine prescribed by doctor where columns includes(morning-which med, noon which med,night which med),and atlast put a small disclaimer to refer doctor "
-            )
-            response_text = gemini_pro_response(user_prompt)
-            st.session_state['chat_history'].append({"user": text_input, "response": response_text})
-            st.markdown(f"**Description:** {response_text}")
-
-        except sr.UnknownValueError:
-            st.error("Sorry, couldn't understand the audio")
-        except sr.RequestError as e:
-            st.error(f"Could not request results from Google Speech Recognition service; {e}")
-
+                user_prompt = (
+                    f"Please summarize the following text into a small description and create a table with columns: morning-which med, noon-which med, night-which med based on the provided information: '{text}'. "
+                    "After providing the table, include a small disclaimer to refer to a doctor."
+                )
+                response_text = gemini_pro_response(user_prompt)
+                st.markdown(f"**Summary and Routine:**\n\n{response_text}")
+            except sr.UnknownValueError:
+                st.write("Sorry, I could not understand the audio.")
+            except sr.RequestError as e:
+                st.write(f"Could not request results; {e}")
 
 # Display chat history
 if 'chat_history' in st.session_state and st.session_state['chat_history']:
@@ -190,5 +182,3 @@ if 'chat_history' in st.session_state and st.session_state['chat_history']:
     for i, chat in enumerate(st.session_state['chat_history']):
         st.write(f"**User:** {chat['user']}")
         st.write(f"**Response:** {chat['response']}")
-
-
