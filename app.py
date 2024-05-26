@@ -3,7 +3,7 @@ import google.generativeai as genai
 import streamlit as st
 import speech_recognition as sr
 
-#  set the path to tesseract executable if necessary and import tesseract
+# Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 genai.configure(api_key='AIzaSyBLofJGHX1U96SCLOn5hytoOaLcEIDoFcY')
@@ -48,20 +48,20 @@ def gemini_pro_vision_response(image):
     return text
 
 
-"""def mask_sensitive_info(text):
+def mask_sensitive_info(text):
     text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
     text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
     text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
-    return text"""
+    return text
 
-"""def detect_entities(text):
+def detect_entities(text):
        
     client = (
     service_name=='comprehendmedical',
     region_name=='us-east-1',
     aws_access_key_id=='YOUR_ACCESS_KEY_ID',
     aws_secret_access_key=='YOUR_SECRET_ACCESS_KEY'
-            )"""
+            )
 
 st.sidebar.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
 st.sidebar.markdown("<h1 style='text-align: left; font-size:25px;font-weight:bold; color: white;'>Choose your input form</h1>", unsafe_allow_html=True)
@@ -156,7 +156,7 @@ elif st.session_state['active_section'] == 'prescription_analysis':
 elif st.session_state['active_section'] == 'voicer':
     st.title("Voicer")
     st.write("Press the button to start voice input")
-    if st.button("Start Voice Input", key="start_voice_input_button"):
+    if st.button("Voicer", key="voicer_button"):
         recognizer = sr.Recognizer()
         with sr.Microphone() as source:
             st.write("Listening...")
