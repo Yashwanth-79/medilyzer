@@ -156,7 +156,7 @@ elif st.session_state['active_section'] == 'prescription_analysis':
 elif st.session_state['active_section'] == 'voicer':
     st.title("Voicer")
     st.write("Press the button to start voice input")
-    if st.button("Voicer", key="voicer_button"):
+    if st.button("Start Voice Input", key="start_voice_input_button"):
         recognizer = sr.Recognizer()
         with sr.Microphone() as source:
             st.write("Listening...")
