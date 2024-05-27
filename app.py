@@ -48,20 +48,20 @@ def gemini_pro_vision_response(image):
     return text
 
 # use for masking name and date entities
-"""def mask_sensitive_info(text):
-    text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
-    text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
-    text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
-    return text"""
+#def mask_sensitive_info(text):
+    #text = (r'\b[A-Z][a-z]*\b', '[NAME]', text)
+    #text = b(r'\b\d{1,2}/\d{1,2}/\d{2,4}\b', '[DATE]', text)
+    #text = (r'\b\d{1,2}-\d{1,2}-\d{2,4}\b', '[DATE]', text)
+    #return text
 # use for finding medical entities through aws medical comprehend
-"""def detect_entities(text):
+#def detect_entities(text):
        
-    client = (
-    service_name=='comprehendmedical',
-    region_name=='us-east-1',
-    aws_access_key_id=='YOUR_ACCESS_KEY_ID',
-    aws_secret_access_key=='YOUR_SECRET_ACCESS_KEY'
-            )"""
+    #client = (
+    #service_name=='comprehendmedical',
+    #region_name=='us-east-1',
+    #aws_access_key_id=='YOUR_ACCESS_KEY_ID',
+    #aws_secret_access_key=='YOUR_SECRET_ACCESS_KEY'
+          #  )
 
 st.sidebar.markdown("<h1 style='text-align: left; font-size:50px;color: green;'>Welcome to Medilyzer⚕️</h1>", unsafe_allow_html=True)
 st.sidebar.markdown("<h1 style='text-align: left; font-size:25px;font-weight:bold; color: white;'>Choose your input form</h1>", unsafe_allow_html=True)
