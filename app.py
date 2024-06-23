@@ -6,7 +6,7 @@ import speech_recognition as sr
 # Uncomment and set the path to tesseract executable if necessary
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-genai.configure(api_key='AIzaSyBLofJGHX1U96SCLOn5hytoOaLcEIDoFcY')
+genai.configure(api_key='')
 
 generation_config = {
     "temperature": 0.2,
